@@ -9,7 +9,7 @@ class PocketCube(object):
         """
         self.state = state
 
-        self._rightRotAssignment = (0, 21, 2, 23, 6, 4, 7, 5, 19, 9, 17, 11, 12, 13, 14, 15, 16, 1, 18, 2, 20, 10, 22, 8)
+        self._rightRotAssignment = (0, 21, 2, 23, 6, 4, 7, 5, 19, 9, 17, 11, 12, 13, 14, 15, 16, 1, 18, 3, 20, 10, 22, 8)
         self._frontRotAssignment = (2, 0, 3, 1, 18, 5, 19, 7, 8, 9, 10, 11, 12, 20, 14, 21, 16, 17, 15, 13, 6, 4, 22, 23)
         self._upRotAssignment = (4, 5, 2, 3, 8, 9, 6, 7, 12, 13, 10, 11, 0, 1, 14, 15, 18, 16, 19, 17, 20, 21, 22, 23)
         return
@@ -66,8 +66,4 @@ if __name__ == '__main__':
     cube = PocketCube('WWWWBBBBGGGGRRRRYYYYOOOO')
     print(cube)
     cube.R()
-    print(cube)
-    cube.F()
-    print(cube)
-    cube.U()
     print(cube)
