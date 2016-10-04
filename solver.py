@@ -52,40 +52,36 @@ class Solver:
         self.backwardSolution = {self.solvedCubeState: self.backwardNode}
 
 
+    def _traverseTree(self, queue, ownDict, otherDict):
+        node = queue.popleft()
+        node.makeChildren()
+        for command, child in node.children.items():
+            state = child.state
+            if state in ownDict:
+                # We already have this state in our dict
+                continue
+            else:
+                ownDict[state] = child
+                if state in otherDict:
+                    # We have a match forward and backward
+                    return state
+        queue.extend([child for key,child in node.children.items()])
+        return None
+
     def _search(self):
-        # TODO: find a way to abstract forward and backward from loop
         backwardNodes = deque([self.backwardNode])
         forwardNodes  = deque([self.forwardNode])
 
         while True:
-            bNode = backwardNodes.popleft()
-            bNode.makeChildren()
-            for command, child in bNode.children.items():
-                state = child.state
-                if state in self.backwardSolution:
-                    # We already have this state in our dict
-                    continue
-                else:
-                    self.backwardSolution[state] = child
-                    if state in self.forwardSolution:
-                        # We have a match forward and backward
-                        return state
-            backwardNodes.extend([child for key,child in bNode.children.items()])
+            state = self._traverseTree(backwardNodes, self.backwardSolution, self.forwardSolution)
 
-            fNode = forwardNodes.popleft()
-            fNode.makeChildren()
-            for command, child in fNode.children.items():
-                state = child.state
-                if state in self.forwardSolution:
-                    # We already have this state in our dict
-                    continue
-                else:
-                    self.forwardSolution[state] = child
-                    if state in self.backwardSolution:
-                        # We have a match forward and backward
-                        return state
-            forwardNodes.extend([child for key,child in fNode.children.items()])
+            if state != None:
+                return state
 
+            state = self._traverseTree(forwardNodes, self.forwardSolution, self.backwardSolution)
+
+            if state != None:
+                return state
 
     def solve(self):
 
