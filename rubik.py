@@ -30,13 +30,21 @@ unwrappedCube = """
 
 """
 
+allowedCharacters = set(['w','r','g','b','o','y', ' '])
 while True:
     # Get Cube input from user
     print(unwrappedCube)
+    print('Please enter face stickers as: W, G, B, O, R or Y\n')
     scrambledState = ''
     for i in range(6):
         while True:
             face = input("Enter {}-{}:\n".format(i*4, i*4+3)).lower()
+
+            if not(set(list(face)) <= allowedCharacters):
+                print("The face values given contain characters outside the allowed characters (W, G, B, O, R, Y)")
+                print("Try again\n")
+                continue
+
             face = "".join(face.split())
             if len(face)!=4:
                 print("This face has {} stickers, it should have 4".format(len(face)))
